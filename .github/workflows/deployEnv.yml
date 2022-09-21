@@ -6,51 +6,57 @@ name: Deploy to Env
 on:
   workflow_dispatch:
 
-# jobs:
-#   deploy-DEV:
-#     uses: ./.github/workflows/deploy-template.yml
-#     with:
-#       env: DEV
-#   deploy-PROD:
-#     uses: ./.github/workflows/deploy-template.yml
-#     needs: deploy-DEV
-#     with:
-#       env: PROD    
-
 jobs:
-  deploy-test:    
-    runs-on: ubuntu-latest
-    environment: DEV
-    env: 
-      Az_RG_Name: gitops6_dev
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Sign in to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS_DEV}}
+  deploy-DEV:
+    uses: ./.github/workflows/deploy-template.yml
+    with:
+      env: DEV
+    secrets:
+      AZCRED: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+  deploy-PROD:
+    uses: ./.github/workflows/deploy-template.yml
+    needs: deploy-DEV
+    with:
+      env: PROD 
+    secrets:
+      AZCRED: ${{ secrets.AZURE_CREDENTIALS_PROD }}    
+    # secrets:
+    #   inherit
 
-      - name: create RG
-        uses: azure/cli@v1
-        with: 
-          inlineScript: az group create -n ${{env.Az_RG_Name}} -l 'WestEurope'
+# jobs:
+#   deploy-test:    
+#     runs-on: ubuntu-latest
+#     environment: DEV
+#     env: 
+#       Az_RG_Name: gitops6_dev
+#     steps:
+#       - uses: actions/checkout@v3
+      
+#       - name: Sign in to Azure
+#         uses: azure/login@v1
+#         with:
+#           creds: ${{secrets.AZURE_CREDENTIALS_DEV}}
+
+#       - name: create RG
+#         uses: azure/cli@v1
+#         with: 
+#           inlineScript: az group create -n ${{env.Az_RG_Name}} -l 'WestEurope'
     
-  deploy-prod:    
-    runs-on: ubuntu-latest
-    environment: PROD
-    needs: deploy-test
-    env: 
-      Az_RG_Name: gitops6_prod
-    steps:
-      - uses: actions/checkout@v3
+#   deploy-prod:    
+#     runs-on: ubuntu-latest
+#     environment: PROD
+#     needs: deploy-test
+#     env: 
+#       Az_RG_Name: gitops6_prod
+#     steps:
+#       - uses: actions/checkout@v3
       
-      - name: Sign in to Azure
-        uses: azure/login@v1
-        with:
-          creds: ${{secrets.AZURE_CREDENTIALS_PROD}}
+#       - name: Sign in to Azure
+#         uses: azure/login@v1
+#         with:
+#           creds: ${{secrets.AZURE_CREDENTIALS_PROD}}
 
-      - name: create RG
-        uses: azure/cli@v1
-        with: 
-          inlineScript: az group create -n ${{env.Az_RG_Name}} -l 'WestEurope'
+#       - name: create RG
+#         uses: azure/cli@v1
+#         with: 
+#           inlineScript: az group create -n ${{env.Az_RG_Name}} -l 'WestEurope'

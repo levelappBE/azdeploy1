@@ -9,6 +9,9 @@ on:
       env:
         required: true
         type: string
+    secrets:
+      AZCRED:
+        required: true    
 
 
 jobs:
