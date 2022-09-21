@@ -9,6 +9,7 @@ on:
       env:
         required: true
         type: string
+        default: 'DEV'
     secrets:
       AZCRED:
         required: true    
