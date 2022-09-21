@@ -1,2 +1,5 @@
 #azdeploy
-Version 1 - Local
+Version 1
+
+Version 5
+
