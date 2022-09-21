@@ -13,17 +13,18 @@ on:
 jobs:
   reusable_workflow_job:
     runs-on: ubuntu-latest
-    environment: ${{ inputs.env }}
+    environment: 
+      name: ${{ inputs.env }}
     steps:
       - uses: actions/checkout@v3
       
       - name: Sign in to Azure
         uses: azure/login@v1
         with:
-          creds: ${{secrets.AZURE_CREDENTIALS_DEV}}
+          creds: ${{ secrets.AZURE_CREDENTIALS_DEV }}
 
       - name: create RG
         uses: azure/cli@v1
         with: 
-          inlineScript: az group create -n ${{env.Az_RG_Name}} -l 'WestEurope'
+          inlineScript: az group create -n ${{ env.Az_RG_Name }} -l 'WestEurope'
 
