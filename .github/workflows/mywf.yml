@@ -13,9 +13,12 @@ on:
   
   workflow_dispatch:
 
+env:
+  Az_RG_Name: gitops4
 
 jobs:
-  lint:
+  #name of the job
+  lint: 
     # The type of runner that the job will run on
     runs-on: ubuntu-latest
 
@@ -28,4 +31,27 @@ jobs:
       - name: Run Bicep linter
         run: az bicep build --file storage.bicep
 
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [lint]
+    steps:
+      # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
+      - uses: actions/checkout@v3
       
+      - name: Sign in to Azure
+        uses: azure/login@v1
+        with:
+          creds: ${{secrets.AZURE_CREDENTIALS}}
+
+      - name: create RG
+        uses: azure/cli@v1
+        with: 
+          inlineScript: az group create -n ${{env.Az_RG_Name}} -l 'WestEurope'
+
+      - name: deploy sa
+        uses: azure/arm-deploy@v1
+        id: deploy-sa-job
+        with: 
+          deploymentName: deploy${{github.run_number}}
+          resourceGroupName: ${{env.Az_RG_Name}}
+          template: ./storage.bicep
