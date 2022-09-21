@@ -9,11 +9,6 @@ on:
       env:
         required: true
         type: string
-        default: 'DEV'
-    secrets:
-      AZCRED:
-        required: true    
-
 
 jobs:
   reusable_workflow_job:
@@ -25,7 +20,7 @@ jobs:
       - name: Sign in to Azure
         uses: azure/login@v1
         with:
-          creds: ${{secrets.AZCRED}}
+          creds: ${{secrets.AZURE_CREDENTIALS_DEV}}
 
       - name: create RG
         uses: azure/cli@v1

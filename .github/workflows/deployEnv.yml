@@ -5,26 +5,23 @@ name: Deploy to Env
 # Controls when the workflow will run
 on:
   workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Environment to run the workflow against'
-        type: environment
-        required: true
+    # inputs:
+    #   environment:
+    #     description: 'Environment to run the workflow against'
+    #     type: environment
+    #     required: true
 
 jobs:
   deploy-DEV:
     uses: ./.github/workflows/deploy-template.yml
     with:
-      env: ${{ github.event.inputs.environment }}
-    secrets:
-      AZCRED: ${{ secrets.AZURE_CREDENTIALS_PROD }}
+      env: 'DEV'
+    
   deploy-PROD:
     uses: ./.github/workflows/deploy-template.yml
     needs: deploy-DEV
     with:
-      env: PROD 
-    secrets:
-      AZCRED: ${{ secrets.AZURE_CREDENTIALS_PROD }}    
+      env: 'PROD' 
     # secrets:
     #   inherit
 
