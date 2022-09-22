@@ -15,13 +15,18 @@ jobs:
   deploy-DEV:
     uses: ./.github/workflows/deploy-template.yml
     with:
-      ENVIRONMENT: 'PROD'
+      ENVIRONMENT: 'DEV'
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}  
+
     
   deploy-PROD:
     uses: ./.github/workflows/deploy-template.yml
     needs: deploy-DEV
     with:
       ENVIRONMENT: 'PROD' 
+    secrets:
+      AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}    
     # secrets:
     #   inherit
 
