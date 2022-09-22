@@ -8,6 +8,9 @@ on:
       ENVIRONMENT:
         required: true
         type: string
+      Az_RG_Name:
+        required: true
+        type: string  
     secrets:
       AZURE_CREDENTIALS:
          required: true    
@@ -31,5 +34,5 @@ jobs:
       - name: create RG
         uses: azure/cli@v1
         with: 
-          inlineScript: az group create -n ${{ env.Az_RG_Name }} -l 'WestEurope'
+          inlineScript: az group create -n ${{ inputs.Az_RG_Name }} -l 'WestEurope'
 

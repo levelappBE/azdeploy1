@@ -16,15 +16,16 @@ jobs:
     uses: ./.github/workflows/deploy-template.yml
     with:
       ENVIRONMENT: 'DEV'
+      Az_RG_Name: gitops6_dev
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}  
 
-    
   deploy-PROD:
     uses: ./.github/workflows/deploy-template.yml
     needs: deploy-DEV
     with:
       ENVIRONMENT: 'PROD' 
+      Az_RG_Name: gitops6_prod
     secrets:
       AZURE_CREDENTIALS: ${{ secrets.AZURE_CREDENTIALS }}    
     # secrets:
