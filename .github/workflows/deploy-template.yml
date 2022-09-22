@@ -2,11 +2,10 @@
 
 name: deploy
 
-
 on:
   workflow_call:
     inputs:
-      env:
+      ENVIRONMENT:
         required: true
         type: string
 
@@ -14,12 +13,12 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     environment: 
-      name: ${{ inputs.env }}
+      name: ${{ inputs.ENVIRONMENT }}
     steps:
       - uses: actions/checkout@v3
       
       - name: echoEnv
-        run: echo "Env is ${{ inputs.env }}"
+        run: echo "Env is ${{ inputs.ENVIRONMENT }}"
 
       - name: Sign in to Azure
         uses: azure/login@v1

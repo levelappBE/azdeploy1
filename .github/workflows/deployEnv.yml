@@ -15,13 +15,13 @@ jobs:
   deploy-DEV:
     uses: ./.github/workflows/deploy-template.yml
     with:
-      env: 'DEV'
+      ENVIRONMENT: 'DEV'
     
   deploy-PROD:
     uses: ./.github/workflows/deploy-template.yml
     needs: deploy-DEV
     with:
-      env: 'PROD' 
+      ENVIRONMENT: 'PROD' 
     # secrets:
     #   inherit
 
