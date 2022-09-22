@@ -15,7 +15,7 @@ jobs:
   deploy-DEV:
     uses: ./.github/workflows/deploy-template.yml
     with:
-      ENVIRONMENT: 'DEV'
+      ENVIRONMENT: 'PROD'
     
   deploy-PROD:
     uses: ./.github/workflows/deploy-template.yml
