@@ -11,13 +11,16 @@ on:
         type: string
 
 jobs:
-  reusable_workflow_job:
+  deploy:
     runs-on: ubuntu-latest
     environment: 
       name: ${{ inputs.env }}
     steps:
       - uses: actions/checkout@v3
       
+      - name: echoEnv
+        run: echo "Env is ${{ inputs.env }}"
+
       - name: Sign in to Azure
         uses: azure/login@v1
         with:
